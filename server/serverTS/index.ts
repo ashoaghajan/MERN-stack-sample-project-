@@ -24,7 +24,7 @@ dotenv.config();
 // mondoDb connection
 const PORT = process.env.PORT || 5000;
 
-mongoose.connect(process.env.CONNECTION_URL!, { 
+mongoose.connect('mongodb+srv://master:745500@cluster0.o2mmz.mongodb.net/<dbname>?retryWrites=true&w=majority', { 
     useNewUrlParser: true, 
     useUnifiedTopology: true 
 }).then(() => 

@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.ts",
   "scripts": {
-    "start": "node index.js",
+    "start": "nodemon index.ts",
     "watch": "tsc -w"
   },
   "keywords": [],
