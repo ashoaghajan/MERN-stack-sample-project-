@@ -1,9 +1,9 @@
 import React, { useState, ChangeEvent, useEffect } from 'react';
-import useStyles from './formStyles';
+import useStyles from '../styles/formStyles';
 import { TextField, Button, Typography, Paper } from '@material-ui/core';
 import FileBase from 'react-file-base64';
 import { useDispatch } from 'react-redux';
-import { addPost, updatePost } from '../../actions/postActions';
+import { addPost, updatePost } from '../actions/postActions';
 import { useSelector } from 'react-redux';
 
 export interface FormProps {

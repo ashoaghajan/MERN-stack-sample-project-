@@ -1,12 +1,12 @@
 import React from 'react';
-import useStyles from './postStyles';
+import useStyles from '../styles/postStyles';
 import { Card, CardActions, CardContent, CardMedia, Button, Typography } from '@material-ui/core'
 import ThumbUpAltIcon from '@material-ui/icons/ThumbUpAlt';
 import DeleteIcon from '@material-ui/icons/Delete';
 import MoreHorizIcon from '@material-ui/icons/MoreHoriz';
 import moment from 'moment';
 import { useDispatch } from 'react-redux';
-import { deletePost, updatePost } from '../../actions/postActions';
+import { deletePost, updatePost } from '../actions/postActions';
 
 export interface PostProps {
     post: Post,
