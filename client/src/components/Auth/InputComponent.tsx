@@ -9,15 +9,17 @@ export interface InputComponentProps {
     type: string,
     half?: boolean,
     autoFocus?: boolean,
-    handleChange: () => void,
+    value: string,
+    handleChange: (e: any) => void,
     handleShowPassword?: () => void
 }
  
-const InputComponent: React.SFC<InputComponentProps> = ({ name, label, half, type, autoFocus, handleChange, handleShowPassword }) => {
+const InputComponent: React.SFC<InputComponentProps> = ({ name, label, half, type, autoFocus, value,
+    handleChange, handleShowPassword }) => {
 
     return ( 
         <Grid item xs={6} sm={half ? 6: 12}>
-            <TextField variant='outlined' fullWidth required
+            <TextField variant='outlined' fullWidth required value={value}
             name={name} label={label} type={type} autoFocus={autoFocus} onChange={handleChange} 
             inputProps={name === 'password' ? { 
                 endadorement: ( 

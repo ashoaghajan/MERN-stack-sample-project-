@@ -1,8 +1,10 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 import memories from '../images/memories.png';
 import { AppBar, Typography, Toolbar, Avatar, Button } from '@material-ui/core';
 import useStyles from '../styles/navbarStyles';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
+import { getUser, userLogout } from '../actions/authActions';
 
 export interface NavbarProps {
     
@@ -11,8 +13,22 @@ export interface NavbarProps {
 const Navbar: React.SFC<NavbarProps> = () => {
 
     const classes = useStyles();
-    const user: any = null;
-    const userInfo = user ? user.result : null;
+    const userData = useSelector((state: RootState) => state.auth.authData);
+    const userInfo = userData.result ? userData.result : null;
+    const dispatch = useDispatch();
+    const history = useHistory();
+
+
+    useEffect(() => {
+        dispatch(getUser());
+        // eslint-disable-next-line
+    },[]);
+
+
+    const logout = () => {
+        dispatch(userLogout());
+        history.push('/');
+    }
 
     return ( 
         <AppBar className={classes.appBar} position='static' color='inherit'>
@@ -21,11 +37,11 @@ const Navbar: React.SFC<NavbarProps> = () => {
                 <img className={classes.image} src={memories} alt='memories' height='60' />
             </div>
             <Toolbar className={classes.toolbar}>
-                {user ? (
+                {userData.result ? (
                     <div className={classes.profile}>
                         <Avatar className={classes.purple} alt={userInfo.name} src={userInfo.imageUrl}>{userInfo.name.charAt(0)}</Avatar>
                         <Typography className={classes.userName} variant='h6'>{userInfo.name}</Typography>
-                        <Button variant='contained' color='secondary'>Logout</Button>
+                        <Button variant='contained' color='secondary' onClick={logout}>Logout</Button>
                     </div>
                 ) : (
                     <Button component={Link} to='/auth' variant='contained' color='primary'>Sign In</Button>

@@ -1,10 +1,11 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Avatar, Button, Paper, Grid, Typography, Container } from '@material-ui/core';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import { GoogleLogin } from 'react-google-login';
-import useStyles from '../../styles/authStyles';
 import InputComponent from './InputComponent';
 import Icon from './icon';
+import { useAuth } from '../../hooks/useAuth';
+
 
 
 export interface AuthProps {
@@ -13,36 +14,8 @@ export interface AuthProps {
  
 const Auth: React.SFC<AuthProps> = () => {
 
-    const classes = useStyles();
-    const [isSignup, setIsSignUp] = useState(true);
-    const [showPassword, setShowPassword] = useState(false);
-    const googleId = process.env.REACT_APP_GOOGLE_CLIENT_ID!;
-
-
-    const handleShowPassword = () => {
-        setShowPassword(prevState => !prevState);
-    }
-
-    const swithMode = () => {
-        setIsSignUp(prevState => !prevState);
-        if(showPassword) handleShowPassword();
-    }
-
-    const handleChange = () => {
-
-    }
-
-    const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-        e.preventDefault();
-    }
-
-    const googleSuccess = (res: any) => {
-        console.log(res);
-    }
-
-    const googleFailure = () => {
-        console.log("Google Sign In Was unsuccessfull. Try Again Later")
-    }
+    const { classes, isSignup, googleId, showPassword, formData, handleShowPassword,
+        swithMode, handleChange, handleSubmit, googleSuccess, googleFailure } = useAuth();
 
     return ( 
         <Container component='main' maxWidth='xs'>
@@ -55,15 +28,15 @@ const Auth: React.SFC<AuthProps> = () => {
                     <Grid container spacing={2}>
                         {isSignup && (
                             <>
-                            <InputComponent type='text' name='firsName' label='Fist Name' handleChange={handleChange} half autoFocus/>
-                            <InputComponent type='text' name='lastName' label='Last Name' handleChange={handleChange} half/>
+                            <InputComponent type='text' name='firsName' value={formData.firsName} label='Fist Name' handleChange={handleChange} half autoFocus/>
+                            <InputComponent type='text' name='lastName' value={formData.lastName} label='Last Name' handleChange={handleChange} half/>
                             </>
                         )}
-                        <InputComponent type='email' name='email' label='Email Address' handleChange={handleChange}/>
-                        <InputComponent type={showPassword ? 'text' : 'password'} name='password' label='Password'
+                        <InputComponent type='email' name='email' value={formData.email} label='Email Address' handleChange={handleChange}/>
+                        <InputComponent type={showPassword ? 'text' : 'password'} name='password' value={formData.password} label='Password'
                         handleChange={handleChange} handleShowPassword={handleShowPassword}/>
                         {isSignup && (
-                            <InputComponent type='password' name='confirmPassword' label='Repeat Password' handleChange={handleChange}/>
+                            <InputComponent type='password' name='confirmPassword' value={formData.confirmPassword} label='Repeat Password' handleChange={handleChange}/>
                         )}
                     </Grid>
                     <Button type='submit' fullWidth variant='contained' color='primary' className={classes.submit}>

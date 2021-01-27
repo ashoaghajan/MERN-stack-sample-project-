@@ -1,5 +1,6 @@
 /// <reference types="react-scripts" />
 
+// Post types
 type PostToAdd = {
     creator: string,
     title: string,
@@ -19,11 +20,7 @@ type Post = {
     likeCount: number
 }
 
-type RootState = {
-    posts: Post[]
-}
-
-type Action = {
+type PostAction =  {
     type: 'GET_POSTS',
     payload: Post[]
 } | {
@@ -35,6 +32,49 @@ type Action = {
 } | {
     type: 'DELETE_POST',
     payload: Post
+} 
+
+
+// Auth types
+type AuthAction =  {
+    type: 'GET_USER',
+    payload: Object
+} | {
+    type: 'SET_USER',
+    payload: { result: any, token: string }
+} | {
+    type: 'LOGOUT',
+    payload: Object
+} | {
+    type: 'SIGN_IN',
+    payload: any
+} | {
+    type: 'SIGN_UP',
+    payload: any
 }
+
+type signinUser = {
+    email: string,
+    password: string,
+}
+
+type signupUser = {
+    firsName: string,
+    lastName: string,
+    email: string,
+    password: string,
+    confirmPassword: string
+}
+
+
+// Global types
+type RootState = {
+    posts: Post[],
+    auth: {
+        authData: any
+    }
+}
+
+type Action = PostAction | AuthAction
 
 type Dispatch = (action: Action) => any

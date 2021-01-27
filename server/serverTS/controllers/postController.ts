@@ -1,8 +1,9 @@
 import mongoose from 'mongoose';
+import PostMessage from '../models/postMessage';
 
-export const get_data = async(res: any, model: mongoose.Model<mongoose.Document, {}>) => {
+export const get_data = async(res: any) => {
     try{
-        const data = await model.find();
+        const data = await PostMessage.find();
         res.status(200).json(data);
     }
     catch(err){
@@ -10,10 +11,7 @@ export const get_data = async(res: any, model: mongoose.Model<mongoose.Document,
     }
 }
 
-export const post_data = async(req: any, res: any, model: mongoose.Model<mongoose.Document, {}>) => {
-    const { body } = req;
-    const dataToAdd = new model(body);
-
+export const post_data = async(dataToAdd: mongoose.Document, res: any) => {
     try{
         await dataToAdd.save();
         res.status(201).json(dataToAdd);
@@ -23,27 +21,35 @@ export const post_data = async(req: any, res: any, model: mongoose.Model<mongoos
     }
 }
 
-export const patch_data = async(req: any, res: any, model: mongoose.Model<mongoose.Document, {}>) => {
-    const  { id: _id } = req.params;
-    const { body } = req;
+export const patch_data = async(_id: string, body: any, res: any) => {
+   
+    try{
+        if(!mongoose.Types.ObjectId.isValid(_id)){
+            return res.status(404).send('No post with that id');
+        }
+        else{
+            const updatedData = await PostMessage.findByIdAndUpdate(_id, body, { new: true });
+            res.json(updatedData);
+        }
+    }
+    catch(err){
+        res.status(409).json({ message: err.message });
+    }
 
-    if(!mongoose.Types.ObjectId.isValid(_id)){
-        return res.status(404).send('No post with that id');
-    }
-    else{
-        const updatedData = await model.findByIdAndUpdate(_id, body, { new: true });
-        res.json(updatedData);
-    }
 }
 
-export const delete_data = async(req: any, res: any, model: mongoose.Model<mongoose.Document, {}>) => {
-    const  { id: _id } = req.params;
+export const delete_data = async(_id: string, res: any) => {
 
-    if(!mongoose.Types.ObjectId.isValid(_id)){
-        return res.status(404).send('No post with that id');
+    try{
+        if(!mongoose.Types.ObjectId.isValid(_id)){
+            return res.status(404).send('No post with that id');
+        }
+        else{
+            const deletedData = await PostMessage.findByIdAndRemove(_id);
+            res.json(deletedData);
+        }
     }
-    else{
-        const deletedData = await model.findByIdAndRemove(_id);
-        res.json(deletedData);
+    catch(err){
+        res.status(409).json({ message: err.message });
     }
 }

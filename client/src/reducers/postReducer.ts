@@ -1,4 +1,6 @@
-export const postReducer = (state: Post[] = [], action: Action) => {
+const initState = [];
+
+export const postReducer = (state: Post[] = initState, action: Action) => {
     switch(action.type){
         case 'GET_POSTS':
             return action.payload

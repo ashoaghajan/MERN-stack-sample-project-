@@ -2,8 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { Container, Grow, Grid } from '@material-ui/core';
 import { useDispatch } from 'react-redux';
 import useStyles from '../styles/homeStyles';
-import Form from './Form';
-import Posts from './Posts';
+import Form from './Posts/Form';
+import Posts from './Posts/Posts';
 import { getPosts } from '../actions/postActions';
 
 export interface HomeProps {
@@ -18,7 +18,8 @@ const Home: React.SFC<HomeProps> = () => {
 
     useEffect(() => {
       dispatch(getPosts());
-    },[dispatch])
+      // eslint-disable-next-line
+    },[])
   
     return ( 
         <Grow in>

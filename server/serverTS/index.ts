@@ -13,6 +13,7 @@ app.use(cors());
 
 //routes
 app.use('/posts', require('./routes/posts'));
+app.use('users', require('./routes/users'));
 
 app.get('/', (req: any, res: any) => {
     res.send('Hello to memories API')
@@ -24,11 +25,11 @@ dotenv.config();
 // mondoDb connection
 const PORT = process.env.PORT || 5000;
 
-mongoose.connect('mongodb+srv://master:745500@cluster0.o2mmz.mongodb.net/<dbname>?retryWrites=true&w=majority', { 
+mongoose.connect(process.env.CONNECTION_URL!, { 
     useNewUrlParser: true, 
     useUnifiedTopology: true 
 }).then(() => 
     app.listen(PORT, () => console.log(`Serve running on port: ${PORT}`))
-).catch((error) => console.log(error.message));
+).catch((error: any) => console.log(error.message));
 
 mongoose.set('useFindAndModify', false);
