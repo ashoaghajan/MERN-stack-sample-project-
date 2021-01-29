@@ -1,3 +1,5 @@
+import * as api from '../api/axiosRequests';
+
 // google & local storage
 export const googleAuth = (result: any, token: string) => (dispatch: Dispatch) => {
     try{
@@ -18,9 +20,10 @@ export const userLogout = () => (dispatch: Dispatch) => {
 
 
 // backend and mongoDB
-export const userSignin = (formData: signinUser, history: any) => (dispatch: Dispatch) => {
+export const userSignin = (formData: signinUser, history: any) => async(dispatch: Dispatch) => {
     try{
-        dispatch({ type: "SIGN_IN", payload: { } });
+        const { data } = await api.signIn(formData) 
+        dispatch({ type: "SET_USER", payload: data });
         history.push('/');
     }
     catch(err){
@@ -28,9 +31,10 @@ export const userSignin = (formData: signinUser, history: any) => (dispatch: Dis
     }
 }
 
-export const userSignup = (formData: signupUser, history: any) => (dispatch: Dispatch) => {
+export const userSignup = (formData: signupUser, history: any) => async(dispatch: Dispatch) => {
     try{
-        dispatch({ type: "SIGN_UP", payload: { } });
+        const { data } = await api.signUp(formData) 
+        dispatch({ type: "SET_USER", payload: data });
         history.push('/');
     }
     catch(err){

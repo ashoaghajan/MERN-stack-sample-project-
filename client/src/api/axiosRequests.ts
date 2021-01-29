@@ -1,11 +1,13 @@
 import axios from 'axios';
 
-const url = 'http://localhost:5000/posts';
+const API = axios.create({ baseURL: 'http://localhost:5000' });
 
-export const getData = () => axios.get(url);
 
-export const postData = (newData: any) => axios.post(url, newData);
+export const getPosts = () => API.get('/posts');
+export const postPost = (newPost: PostToAdd) => API.post('/posts', newPost);
+export const deletePost = (id: string) => API.delete(`${'/posts'}/${id}`);
+export const patchPost = (id: string, updatedPost: PostToAdd) => API.patch(`${'/posts'}/${id}`, updatedPost);
+export const likePost = (id: string) => API.patch(`${'/posts'}/${id}/like`);
 
-export const patchData = (id: string, updatedData: any) => axios.patch(`${url}/${id}`, updatedData);
-
-export const deleteData = (id: string) => axios.delete(`${url}/${id}`);
+export const signIn = (formData: signinUser) => API.post('/users/signin', formData); 
+export const signUp = (formData: signupUser) => API.post('/users/signup', formData); 

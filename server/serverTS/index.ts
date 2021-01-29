@@ -13,7 +13,7 @@ app.use(cors());
 
 //routes
 app.use('/posts', require('./routes/posts'));
-app.use('users', require('./routes/users'));
+app.use('/users', require('./routes/users'));
 
 app.get('/', (req: any, res: any) => {
     res.send('Hello to memories API')

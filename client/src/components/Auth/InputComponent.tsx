@@ -21,8 +21,8 @@ const InputComponent: React.SFC<InputComponentProps> = ({ name, label, half, typ
         <Grid item xs={6} sm={half ? 6: 12}>
             <TextField variant='outlined' fullWidth required value={value}
             name={name} label={label} type={type} autoFocus={autoFocus} onChange={handleChange} 
-            inputProps={name === 'password' ? { 
-                endadorement: ( 
+            InputProps={name === 'password' ? { 
+                endAdornment: ( 
                     <InputAdornment position='end'>
                         <IconButton onClick={handleShowPassword}>
                             {type === 'password' ? <Visibility /> : <VisibilityOff />}

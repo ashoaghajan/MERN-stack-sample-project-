@@ -1,9 +1,9 @@
-import * as api from '../api/axiosRequests'
+import * as api from '../api/axiosRequests';
 
 // Action Creators
 export const getPosts = () => async(dispatch: Dispatch) => {
     try{
-        const { data } = await api.getData();
+        const { data } = await api.getPosts();
         dispatch({ type: 'GET_POSTS', payload: data })
     }
     catch(err){
@@ -13,18 +13,8 @@ export const getPosts = () => async(dispatch: Dispatch) => {
 
 export const addPost = (newPost: PostToAdd) => async(dispatch: Dispatch) => {
     try{
-        const { data } = await api.postData(newPost);
+        const { data } = await api.postPost(newPost);
         dispatch({ type: 'CREATE_POST', payload: data })
-    }
-    catch(err){
-        console.log(err.message);
-    }
-}
-
-export const updatePost = (id: string, updatedPost: PostToAdd | { likeCount: number }) => async(dispatch: Dispatch) => {
-    try{
-        const { data } = await api.patchData(id, updatedPost);
-        dispatch({ type: 'UPDATE_POST', payload: data })
     }
     catch(err){
         console.log(err.message);
@@ -33,8 +23,28 @@ export const updatePost = (id: string, updatedPost: PostToAdd | { likeCount: num
 
 export const deletePost = (id: string) => async(dispatch: Dispatch) => {
     try{
-        const { data } = await api.deleteData(id);
+        const { data } = await api.deletePost(id);
         dispatch({ type: 'DELETE_POST', payload: data })
+    }
+    catch(err){
+        console.log(err.message);
+    }
+}
+
+export const updatePost = (id: string, updatedPost: PostToAdd) => async(dispatch: Dispatch) => {
+    try{
+        const { data } = await api.patchPost(id, updatedPost);
+        dispatch({ type: 'UPDATE_POST', payload: data })
+    }
+    catch(err){
+        console.log(err.message);
+    }
+}
+
+export const likePost = (id: string) => async(dispatch: Dispatch) => {
+    try{
+        const { data } = await api.likePost(id);
+        dispatch({ type: 'UPDATE_POST', payload: data })
     }
     catch(err){
         console.log(err.message);

@@ -8,7 +8,7 @@ export const emptyPost = {
 };
 
 export const initSignForm = {
-    firsName: '',
+    firstName: '',
     lastName: '',
     email: '',
     password: '',

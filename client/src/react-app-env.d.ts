@@ -45,12 +45,6 @@ type AuthAction =  {
 } | {
     type: 'LOGOUT',
     payload: Object
-} | {
-    type: 'SIGN_IN',
-    payload: any
-} | {
-    type: 'SIGN_UP',
-    payload: any
 }
 
 type signinUser = {
@@ -59,7 +53,7 @@ type signinUser = {
 }
 
 type signupUser = {
-    firsName: string,
+    firstName: string,
     lastName: string,
     email: string,
     password: string,

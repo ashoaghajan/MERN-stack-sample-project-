@@ -12,7 +12,7 @@ export const useAuth = () => {
     const dispatch = useDispatch();
     const history = useHistory();
 
-    const [isSignup, setIsSignUp] = useState(true);
+    const [isSignup, setIsSignUp] = useState(false);
     const [showPassword, setShowPassword] = useState(false);
     const [formData, setFormData] = useState(initSignForm)
 
@@ -35,10 +35,10 @@ export const useAuth = () => {
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         if(isSignup){
-            dispatch(userSignin(formData, history));
+            dispatch(userSignup(formData, history));
         }
         else{
-            dispatch(userSignup(formData, history));
+            dispatch(userSignin(formData, history));
         }
     }
 

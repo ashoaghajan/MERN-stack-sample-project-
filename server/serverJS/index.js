@@ -15,6 +15,7 @@ app.use(body_parser_1.default.urlencoded({ limit: '30mb', extended: true }));
 app.use(cors_1.default());
 //routes
 app.use('/posts', require('./routes/posts'));
+app.use('/users', require('./routes/users'));
 app.get('/', (req, res) => {
     res.send('Hello to memories API');
 });

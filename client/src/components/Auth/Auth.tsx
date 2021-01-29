@@ -28,7 +28,7 @@ const Auth: React.SFC<AuthProps> = () => {
                     <Grid container spacing={2}>
                         {isSignup && (
                             <>
-                            <InputComponent type='text' name='firsName' value={formData.firsName} label='Fist Name' handleChange={handleChange} half autoFocus/>
+                            <InputComponent type='text' name='firstName' value={formData.firstName} label='Fist Name' handleChange={handleChange} half autoFocus/>
                             <InputComponent type='text' name='lastName' value={formData.lastName} label='Last Name' handleChange={handleChange} half/>
                             </>
                         )}

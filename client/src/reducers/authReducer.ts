@@ -1,7 +1,5 @@
 const initState = {
-    authData: {
-
-    }
+    authData: {}
 }
 
 export const authReducer = (state: any = initState, action: Action) => {

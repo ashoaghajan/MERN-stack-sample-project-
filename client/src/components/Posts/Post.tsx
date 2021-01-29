@@ -6,7 +6,7 @@ import DeleteIcon from '@material-ui/icons/Delete';
 import MoreHorizIcon from '@material-ui/icons/MoreHoriz';
 import moment from 'moment';
 import { useDispatch } from 'react-redux';
-import { deletePost, updatePost } from '../../actions/postActions';
+import { deletePost, likePost } from '../../actions/postActions';
 
 export interface PostProps {
     post: Post,
@@ -26,8 +26,8 @@ const Post: React.SFC<PostProps> = ({ post, setCurrentId }) => {
         dispatch(deletePost(post._id));
     }
 
-    const likePost = () => {
-        dispatch(updatePost(post._id, { likeCount: post.likeCount + 1 }));
+    const handleLike = () => {
+        dispatch(likePost(post._id));
     }
     
     return ( 
@@ -50,7 +50,7 @@ const Post: React.SFC<PostProps> = ({ post, setCurrentId }) => {
                 <Typography variant='body2' color='textSecondary' component='p'>{post.message}</Typography>
             </CardContent>
             <CardActions className={classes.cardActions}>
-                <Button size='small' color='primary' onClick={likePost}>
+                <Button size='small' color='primary' onClick={handleLike}>
                     <ThumbUpAltIcon fontSize='small'/>&nbsp; Like &nbsp;{post.likeCount}
                 </Button>
                 <Button size='small' color='primary' onClick={handleDelete}>

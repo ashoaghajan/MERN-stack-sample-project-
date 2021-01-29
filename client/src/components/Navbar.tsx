@@ -17,6 +17,7 @@ const Navbar: React.SFC<NavbarProps> = () => {
     const userInfo = userData.result ? userData.result : null;
     const dispatch = useDispatch();
     const history = useHistory();
+    const avatarText = userInfo && userInfo.name.split('')[0].charAt(0) + userInfo.name.split('')[1].charAt(0);
 
 
     useEffect(() => {
@@ -39,7 +40,7 @@ const Navbar: React.SFC<NavbarProps> = () => {
             <Toolbar className={classes.toolbar}>
                 {userData.result ? (
                     <div className={classes.profile}>
-                        <Avatar className={classes.purple} alt={userInfo.name} src={userInfo.imageUrl}>{userInfo.name.charAt(0)}</Avatar>
+                        <Avatar className={classes.purple} alt={userInfo.name} src={userInfo.imageUrl}>{avatarText}</Avatar>
                         <Typography className={classes.userName} variant='h6'>{userInfo.name}</Typography>
                         <Button variant='contained' color='secondary' onClick={logout}>Logout</Button>
                     </div>
