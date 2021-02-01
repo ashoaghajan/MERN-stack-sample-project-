@@ -11,14 +11,22 @@ export interface FormProps {
  
 const Form: React.SFC<FormProps> = ({ currentId, setCurrentId }) => {
 
-    const { classes, postData, handleChange, handleAddTag, handleFileChange, handleSubmit, reset } = useForm(currentId, setCurrentId);
+    const { classes, postData, userName, handleChange, handleAddTag, handleFileChange, handleSubmit, reset } = useForm(currentId, setCurrentId);
+
+    if(!userName){
+        return (
+            <Paper className='classes.paper'>
+                <Typography variant='h6' align='center'>
+                    Please Sign in in order to create/like memories.
+                </Typography>
+            </Paper>
+        )
+    }
 
     return ( 
         <Paper className='classes.paper'>
             <form autoComplete='off' noValidate className={`${classes.root} ${classes.form}`} onSubmit={handleSubmit}>
                 <Typography variant='h6'>{currentId ? 'Editing' : `Creating`} a memory</Typography>
-                <TextField name='creator' variant='outlined' label="Creator" fullWidth 
-                    value={postData.creator} onChange={handleChange}/>
                 <TextField name='title' variant='outlined' label="Title" fullWidth 
                     value={postData.title} onChange={handleChange}/>
                 <TextField name='message' variant='outlined' label="Message" fullWidth 

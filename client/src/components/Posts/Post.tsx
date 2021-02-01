@@ -1,12 +1,12 @@
 import React from 'react';
 import useStyles from '../../styles/postStyles';
 import { Card, CardActions, CardContent, CardMedia, Button, Typography } from '@material-ui/core'
-import ThumbUpAltIcon from '@material-ui/icons/ThumbUpAlt';
 import DeleteIcon from '@material-ui/icons/Delete';
 import MoreHorizIcon from '@material-ui/icons/MoreHoriz';
 import moment from 'moment';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { deletePost, likePost } from '../../actions/postActions';
+import Likes from './Likes';
 
 export interface PostProps {
     post: Post,
@@ -15,6 +15,8 @@ export interface PostProps {
  
 const Post: React.SFC<PostProps> = ({ post, setCurrentId }) => {
 
+    const user: User = useSelector((state: RootState) => state.auth.authData);
+    const userId = user.result?._id || user.result?.googleId;
     const classes = useStyles();
     const dispatch = useDispatch();
 
@@ -32,15 +34,15 @@ const Post: React.SFC<PostProps> = ({ post, setCurrentId }) => {
     
     return ( 
         <Card className={classes.card}>
-            <CardMedia className={classes.media} image={post.selectedFile} title={post.title}/>
+            {post.selectedFile && <CardMedia className={classes.media} image={post.selectedFile} title={post.title}/>}
             <div className={classes.overlay}>
-                <Typography variant='h6'>{post.creator}</Typography>
+                <Typography variant='h6'>{post.name}</Typography>
                 <Typography variant='body2'>{moment(post.createdAt).fromNow()}</Typography>
             </div>
             <div className={classes.overlay2}>
-                <Button style={{color: 'white'}} size='small' onClick={handleEdit}>
+            {userId === post.creator && <Button style={{color: 'white'}} size='small' onClick={handleEdit}>
                     <MoreHorizIcon fontSize='default'/>
-                </Button>
+                </Button>}
             </div>
             <div className={classes.details}>
                 <Typography variant='body2' color='textSecondary'>{post.tags.map(tag => `#${tag} `)}</Typography>
@@ -50,12 +52,12 @@ const Post: React.SFC<PostProps> = ({ post, setCurrentId }) => {
                 <Typography variant='body2' color='textSecondary' component='p'>{post.message}</Typography>
             </CardContent>
             <CardActions className={classes.cardActions}>
-                <Button size='small' color='primary' onClick={handleLike}>
-                    <ThumbUpAltIcon fontSize='small'/>&nbsp; Like &nbsp;{post.likeCount}
+                <Button size='small' disabled={!user?.result} color='primary' onClick={handleLike}>
+                    <Likes post={post}/>
                 </Button>
-                <Button size='small' color='primary' onClick={handleDelete}>
+                {userId === post.creator && <Button size='small' color='primary' onClick={handleDelete}>
                     <DeleteIcon fontSize='small'/>&nbsp; Delete
-                </Button>
+                </Button>}
             </CardActions>
         </Card>
      );

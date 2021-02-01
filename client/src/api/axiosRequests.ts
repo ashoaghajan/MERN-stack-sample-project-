@@ -1,6 +1,16 @@
-import axios from 'axios';
+import axios, { AxiosRequestConfig } from 'axios';
 
 const API = axios.create({ baseURL: 'http://localhost:5000' });
+
+API.interceptors.request.use((req: AxiosRequestConfig) => {
+    const profile = localStorage.getItem('profile')
+    if(profile){
+        const { token } = JSON.parse(profile);
+        req.headers.authorization = `Bearer ${token}`
+    }
+    
+    return req
+})
 
 
 export const getPosts = () => API.get('/posts');

@@ -16,7 +16,7 @@ exports.authMiddleware = void 0;
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 const authMiddleware = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const token = req.headers.authorization.split('')[1];
+        const token = req.headers.authorization.split(' ')[1];
         const isCustomAuth = token.length < 500;
         let decodedData = '';
         if (isCustomAuth) {

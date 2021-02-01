@@ -1,5 +1,4 @@
 export const emptyPost = {
-    creator: '',
     title: '',
     message: '',
     tags: [''],

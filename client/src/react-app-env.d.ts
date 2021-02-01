@@ -2,14 +2,16 @@
 
 // Post types
 type PostToAdd = {
+    name: string,
     creator: string,
     title: string,
     message: string,
     tags: string[],
-    selectedFile: string
+    selectedFile: string,
 }
 
 type Post = {
+    name: string,
     creator: string,
     title: string,
     message: string,
@@ -17,7 +19,8 @@ type Post = {
     selectedFile: string,
     _id: string,
     createdAt: Date,
-    likeCount: number
+    likeCount: number,
+    likes: string[]
 }
 
 type PostAction =  {
@@ -36,15 +39,15 @@ type PostAction =  {
 
 
 // Auth types
-type AuthAction =  {
-    type: 'GET_USER',
-    payload: Object
-} | {
-    type: 'SET_USER',
-    payload: { result: any, token: string }
-} | {
-    type: 'LOGOUT',
-    payload: Object
+type User = {
+    token: string,
+    result: {
+        email: string,
+        name: string,
+        _id?: string
+        googleId: string
+        imageUrl: string
+    }
 }
 
 type signinUser = {
@@ -58,6 +61,17 @@ type signupUser = {
     email: string,
     password: string,
     confirmPassword: string
+}
+
+type AuthAction =  {
+    type: 'GET_USER',
+    payload: Object
+} | {
+    type: 'SET_USER',
+    payload: { result: any, token: string }
+} | {
+    type: 'LOGOUT',
+    payload: Object
 }
 
 

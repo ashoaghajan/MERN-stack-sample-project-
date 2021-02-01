@@ -22,6 +22,7 @@ const get_data = (res) => __awaiter(void 0, void 0, void 0, function* () {
         res.status(200).json(data);
     }
     catch (err) {
+        console.log(err);
         res.status(400).json({ message: err.message });
     }
 });
@@ -29,12 +30,14 @@ exports.get_data = get_data;
 // add a new post
 const post_data = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { body } = req;
-    const dataToAdd = new postMessage_1.default(body);
+    const date = new Date().toISOString();
+    const dataToAdd = new postMessage_1.default(Object.assign(Object.assign({}, body), { creator: req.userId, createdAt: date }));
     try {
         yield dataToAdd.save();
         res.status(201).json(dataToAdd);
     }
     catch (err) {
+        console.log(err);
         res.status(409).json({ message: err.message });
     }
 });
@@ -52,6 +55,7 @@ const delete_data = (req, res) => __awaiter(void 0, void 0, void 0, function* ()
         }
     }
     catch (err) {
+        console.log(err);
         res.status(409).json({ message: err.message });
     }
 });
@@ -72,6 +76,7 @@ const patch_data = (req, res) => __awaiter(void 0, void 0, void 0, function* () 
         }
     }
     catch (err) {
+        console.log(err);
         res.status(409).json({ message: err.message });
     }
 });
@@ -79,7 +84,7 @@ exports.patch_data = patch_data;
 // like a post
 const like_data = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { id: _id } = req.params;
-    if (req.userId)
+    if (!req.userId)
         return res.json({ message: 'Unauthenticated user.' });
     try {
         if (!mongoose_1.default.Types.ObjectId.isValid(_id)) {

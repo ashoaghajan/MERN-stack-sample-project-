@@ -10,6 +10,9 @@ export const useForm = (currentId: string, setCurrentId: React.Dispatch<React.Se
 
     const dispatch = useDispatch();
     const post = useSelector((state: RootState) => currentId ? state.posts.find(post => post._id === currentId) : null);
+    const userData: User = useSelector((state: RootState) => state.auth.authData);
+    const userName = userData.result ? userData.result.name : '';
+    const userId = userData.result?._id || userData.result?.googleId;
     const classes = useStyles();
     const [postData, setPostData] = useState(emptyPost);
 
@@ -17,7 +20,6 @@ export const useForm = (currentId: string, setCurrentId: React.Dispatch<React.Se
     useEffect(() => {
         if(post){
             setPostData({
-                creator: post.creator,
                 title: post.title,
                 message: post.message,
                 tags: post.tags,
@@ -53,13 +55,13 @@ export const useForm = (currentId: string, setCurrentId: React.Dispatch<React.Se
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         if(currentId){
-            dispatch(updatePost(currentId, postData));
+            dispatch(updatePost(currentId, { ...postData, name: userName, creator: userId }));
         }
         else{
-            dispatch(addPost(postData));
+            dispatch(addPost({ ...postData, name: userName, creator: userId }));
         }
         reset();
     }
 
-    return { classes, postData, handleChange, handleAddTag, handleFileChange, handleSubmit, reset }
+    return { classes, postData, userName, handleChange, handleAddTag, handleFileChange, handleSubmit, reset }
 }

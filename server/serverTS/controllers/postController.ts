@@ -8,6 +8,7 @@ export const get_data = async(res: any) => {
         res.status(200).json(data);
     }
     catch(err){
+        console.log(err)
         res.status(400).json({ message: err.message });
     }
 }
@@ -15,13 +16,15 @@ export const get_data = async(res: any) => {
 // add a new post
 export const post_data = async(req: any, res: any) => {
     const { body } = req;
-    const dataToAdd = new PostMessage(body);
+    const date = new Date().toISOString();
+    const dataToAdd = new PostMessage({ ...body, creator: req.userId, createdAt: date });
 
     try{
         await dataToAdd.save();
         res.status(201).json(dataToAdd);
     }
     catch(err){
+        console.log(err)
         res.status(409).json({ message: err.message });
     }
 }
@@ -40,6 +43,7 @@ export const delete_data = async(req: any, res: any) => {
         }
     }
     catch(err){
+        console.log(err)
         res.status(409).json({ message: err.message });
     }
 }
@@ -61,6 +65,7 @@ export const patch_data = async(req: any, res: any) => {
         }
     }
     catch(err){
+        console.log(err)
         res.status(409).json({ message: err.message });
     }
 }
@@ -69,7 +74,7 @@ export const patch_data = async(req: any, res: any) => {
 export const like_data = async(req: any, res: any) => {
     const  { id: _id } = req.params;
 
-    if(req.userId) return res.json({ message: 'Unauthenticated user.' });
+    if(!req.userId) return res.json({ message: 'Unauthenticated user.' });
    
     try{
         if(!mongoose.Types.ObjectId.isValid(_id)){
