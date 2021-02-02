@@ -6,7 +6,7 @@ API.interceptors.request.use((req: AxiosRequestConfig) => {
     const profile = localStorage.getItem('profile')
     if(profile){
         const { token } = JSON.parse(profile);
-        req.headers.authorization = `Bearer ${token}`
+        req.headers.authorization = `Bearer ${token}`;
     }
     
     return req

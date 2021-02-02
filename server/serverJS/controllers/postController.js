@@ -64,7 +64,7 @@ exports.delete_data = delete_data;
 const patch_data = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { id: _id } = req.params;
     const { body } = req;
-    if (req.userId)
+    if (!req.userId)
         return res.json({ message: 'Unauthenticated user.' });
     try {
         if (!mongoose_1.default.Types.ObjectId.isValid(_id)) {

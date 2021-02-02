@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { Container, Grow, Grid } from '@material-ui/core';
-import { useDispatch } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
+import { useHistory } from 'react-router-dom';
 import useStyles from '../styles/homeStyles';
 import Form from './Posts/Form';
 import Posts from './Posts/Posts';
 import { getPosts } from '../actions/postActions';
+import { checkToken } from '../global/globalFunctions';
 
 export interface HomeProps {
     
@@ -15,11 +17,17 @@ const Home: React.SFC<HomeProps> = () => {
     const classes = useStyles();
     const [currentId, setCurrentId] = useState('');
     const dispatch = useDispatch();
+    const history = useHistory();
+    const userData: User = useSelector((state: RootState) => state.auth.authData);
+    const token = userData.token ? userData.token : '';
+
 
     useEffect(() => {
       dispatch(getPosts());
+      checkToken(token, dispatch, history);
       // eslint-disable-next-line
-    },[])
+    },[]);
+    
   
     return ( 
         <Grow in>

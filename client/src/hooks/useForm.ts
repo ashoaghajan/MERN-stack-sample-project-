@@ -3,18 +3,21 @@ import { useDispatch } from 'react-redux';
 import useStyles from '../styles/formStyles';
 import { addPost, updatePost } from '../actions/postActions';
 import { useSelector } from 'react-redux';
+import { useHistory } from 'react-router-dom';
 import { emptyPost } from '../global/globalVariables';
-import { changeStateKey } from '../global/globalFunctions';
+import { changeStateKey, checkToken } from '../global/globalFunctions';
 
 export const useForm = (currentId: string, setCurrentId: React.Dispatch<React.SetStateAction<string>>) => {
 
     const dispatch = useDispatch();
     const post = useSelector((state: RootState) => currentId ? state.posts.find(post => post._id === currentId) : null);
     const userData: User = useSelector((state: RootState) => state.auth.authData);
+    const token = userData.token ? userData.token : '';
     const userName = userData.result ? userData.result.name : '';
     const userId = userData.result?._id || userData.result?.googleId;
     const classes = useStyles();
     const [postData, setPostData] = useState(emptyPost);
+    const history = useHistory();
 
 
     useEffect(() => {
@@ -54,6 +57,7 @@ export const useForm = (currentId: string, setCurrentId: React.Dispatch<React.Se
 
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
+        checkToken(token, dispatch, history);
         if(currentId){
             dispatch(updatePost(currentId, { ...postData, name: userName, creator: userId }));
         }

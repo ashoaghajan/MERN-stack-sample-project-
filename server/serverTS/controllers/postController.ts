@@ -53,7 +53,7 @@ export const patch_data = async(req: any, res: any) => {
     const  { id: _id } = req.params;
     const { body } = req;
 
-    if(req.userId) return res.json({ message: 'Unauthenticated user.' });
+    if(!req.userId) return res.json({ message: 'Unauthenticated user.' });
    
     try{
         if(!mongoose.Types.ObjectId.isValid(_id)){

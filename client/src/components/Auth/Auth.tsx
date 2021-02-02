@@ -32,8 +32,8 @@ const Auth: React.SFC<AuthProps> = () => {
                             <InputComponent type='text' name='lastName' value={formData.lastName} label='Last Name' handleChange={handleChange} half/>
                             </>
                         )}
-                        <InputComponent type='email' name='email' value={formData.email} label='Email Address' handleChange={handleChange}/>
-                        <InputComponent type={showPassword ? 'text' : 'password'} name='password' value={formData.password} label='Password'
+                        <InputComponent type='email' name='email' autoComplete="email" value={formData.email} label='Email Address' handleChange={handleChange}/>
+                        <InputComponent type={showPassword ? 'text' : 'password'} name='password' autoComplete="password" value={formData.password} label='Password'
                         handleChange={handleChange} handleShowPassword={handleShowPassword}/>
                         {isSignup && (
                             <InputComponent type='password' name='confirmPassword' value={formData.confirmPassword} label='Repeat Password' handleChange={handleChange}/>

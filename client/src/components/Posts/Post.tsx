@@ -1,4 +1,5 @@
 import React from 'react';
+import { useHistory } from 'react-router-dom';
 import useStyles from '../../styles/postStyles';
 import { Card, CardActions, CardContent, CardMedia, Button, Typography } from '@material-ui/core'
 import DeleteIcon from '@material-ui/icons/Delete';
@@ -7,6 +8,7 @@ import moment from 'moment';
 import { useDispatch, useSelector } from 'react-redux';
 import { deletePost, likePost } from '../../actions/postActions';
 import Likes from './Likes';
+import { checkToken } from '../../global/globalFunctions';
 
 export interface PostProps {
     post: Post,
@@ -16,21 +18,28 @@ export interface PostProps {
 const Post: React.SFC<PostProps> = ({ post, setCurrentId }) => {
 
     const user: User = useSelector((state: RootState) => state.auth.authData);
+    const token = user.token ? user.token : '';
     const userId = user.result?._id || user.result?.googleId;
     const classes = useStyles();
     const dispatch = useDispatch();
+    const history = useHistory();
+
 
     const handleEdit = () => {
+        checkToken(token, dispatch, history);
         setCurrentId(post._id);
     }
 
     const handleDelete = () => {
+        checkToken(token, dispatch, history);
         dispatch(deletePost(post._id));
     }
 
     const handleLike = () => {
+        checkToken(token, dispatch, history);
         dispatch(likePost(post._id));
     }
+    
     
     return ( 
         <Card className={classes.card}>
