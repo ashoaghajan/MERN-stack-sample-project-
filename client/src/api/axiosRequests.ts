@@ -10,7 +10,7 @@ API.interceptors.request.use((req: AxiosRequestConfig) => {
     }
     
     return req
-})
+});
 
 // post requests
 export const getPosts = () => API.get('/posts');
