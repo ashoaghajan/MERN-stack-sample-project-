@@ -8,7 +8,7 @@ import { initSignForm } from '../global/globalVariables';
 
 export const useAuth = () => {
     const classes = useStyles();
-    const googleId = process.env.REACT_APP_GOOGLE_CLIENT_ID!;
+    const googleId = '238085980500-rlmba7biqnggjevte9c527rfmju61cvp.apps.googleusercontent.com';
     const dispatch = useDispatch();
     const history = useHistory();
 
