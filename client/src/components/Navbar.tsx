@@ -4,6 +4,7 @@ import { AppBar, Typography, Toolbar, Avatar, Button } from '@material-ui/core';
 import useStyles from '../styles/navbarStyles';
 import { Link, useHistory } from 'react-router-dom';
 import { getUser, userLogout } from '../actions/authActions';
+import memories from '../images/memories.png';
 
 export interface NavbarProps {
     
@@ -34,7 +35,7 @@ const Navbar: React.SFC<NavbarProps> = () => {
         <AppBar className={classes.appBar} position='static' color='inherit'>
             <div className={classes.brandContainer}>
                 <Typography component={Link} to='/' className={classes.heading} variant='h2' align='center'>Memories</Typography>
-                {/* <img className={classes.image} src={memories} alt='memories' height='60' /> */}
+                <img className={classes.image} src={memories} alt='memories' height='60' />
             </div>
             <Toolbar className={classes.toolbar}>
                 {userData.result ? (

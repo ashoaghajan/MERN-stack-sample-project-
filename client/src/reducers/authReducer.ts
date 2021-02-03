@@ -15,8 +15,8 @@ export const authReducer = (state: any = initState, action: Action) => {
             }
 
         case 'SET_USER':
-            const data = JSON.stringify({...action?.payload});
             // save user data to localstorage
+            const data = JSON.stringify({...action?.payload});
             localStorage.setItem('profile', data);
             return {
                 ...state,

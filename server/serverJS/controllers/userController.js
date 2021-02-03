@@ -16,19 +16,17 @@ exports.sign_up = exports.sign_in = void 0;
 const bcryptjs_1 = __importDefault(require("bcryptjs"));
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 const userModel_1 = __importDefault(require("../models/userModel"));
-const sign_in = (user, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const { email, password } = user;
+const sign_in = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const { email, password } = req.body;
     try {
         const existingUser = yield userModel_1.default.findOne({ email });
         // user does not exist
-        if (!existingUser) {
+        if (!existingUser)
             return res.status(404).json({ message: "User doesn't exist" });
-        }
         const isPwdCorrect = yield bcryptjs_1.default.compare(password, existingUser.password);
         // password is not correct
-        if (!isPwdCorrect) {
+        if (!isPwdCorrect)
             return res.status(400).json({ message: "Invalid Credentials." });
-        }
         //password is correct
         const { email: userEmail, _id: id } = existingUser;
         const token = jsonwebtoken_1.default.sign({ userEmail, id }, process.env.SECRET, { expiresIn: '1h' });
@@ -39,18 +37,16 @@ const sign_in = (user, res) => __awaiter(void 0, void 0, void 0, function* () {
     }
 });
 exports.sign_in = sign_in;
-const sign_up = (newUser, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const { email, password, confirmPassword, firstName, lastName } = newUser;
+const sign_up = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const { email, password, confirmPassword, firstName, lastName } = req.body;
     try {
         const existingUser = yield userModel_1.default.findOne({ email });
         // user exists
-        if (existingUser) {
+        if (existingUser)
             return res.status(400).json({ message: "User with this email already exists." });
-        }
         //check if password and confirmPassword is the same
-        if (password !== confirmPassword) {
+        if (password !== confirmPassword)
             return res.status(400).json({ message: "Passwords do not match." });
-        }
         const hashedPassword = yield bcryptjs_1.default.hash(password, 12);
         const result = yield userModel_1.default.create({ email, password: hashedPassword, name: `${firstName} ${lastName}` });
         const token = jsonwebtoken_1.default.sign({ email, id: result._id }, process.env.SECRET, { expiresIn: '1h' });

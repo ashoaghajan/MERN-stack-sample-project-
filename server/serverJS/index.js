@@ -16,9 +16,6 @@ app.use(cors_1.default());
 //routes
 app.use('/posts', require('./routes/posts'));
 app.use('/users', require('./routes/users'));
-app.get('/', (req, res) => {
-    res.send('Hello to memories API');
-});
 dotenv_1.default.config();
 // mondoDb connection
 const PORT = process.env.PORT || 5000;

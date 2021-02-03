@@ -12,12 +12,13 @@ API.interceptors.request.use((req: AxiosRequestConfig) => {
     return req
 })
 
-
+// post requests
 export const getPosts = () => API.get('/posts');
 export const postPost = (newPost: PostToAdd) => API.post('/posts', newPost);
-export const deletePost = (id: string) => API.delete(`${'/posts'}/${id}`);
-export const patchPost = (id: string, updatedPost: PostToAdd) => API.patch(`${'/posts'}/${id}`, updatedPost);
-export const likePost = (id: string) => API.patch(`${'/posts'}/${id}/like`);
+export const deletePost = (id: string) => API.delete(`posts/${id}`);
+export const patchPost = (id: string, updatedPost: PostToAdd) => API.patch(`/posts/${id}`, updatedPost);
+export const likePost = (id: string) => API.patch(`/posts/${id}/like`);
 
+// user requests
 export const signIn = (formData: signinUser) => API.post('/users/signin', formData); 
 export const signUp = (formData: signupUser) => API.post('/users/signup', formData); 

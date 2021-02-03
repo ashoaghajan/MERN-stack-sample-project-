@@ -2,21 +2,19 @@ import bycrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 import UserModel from '../models/userModel';
 
-export const sign_in = async(user: any, res: any) => {
-    const { email, password } = user;
+export const sign_in = async(req: any, res: any) => {
+    const { email, password } = req.body;
 
     try{
         const existingUser: any = await UserModel.findOne({ email });
 
         // user does not exist
-        if(!existingUser){
-            return res.status(404).json({ message: "User doesn't exist" });
-        }
+        if(!existingUser) return res.status(404).json({ message: "User doesn't exist" });
+        
         const isPwdCorrect = await bycrypt.compare(password, existingUser.password);
+
         // password is not correct
-        if(!isPwdCorrect){
-            return res.status(400).json({ message: "Invalid Credentials." });
-        } 
+        if(!isPwdCorrect) return res.status(400).json({ message: "Invalid Credentials." });
 
         //password is correct
         const { email: userEmail, _id: id } = existingUser;
@@ -30,20 +28,17 @@ export const sign_in = async(user: any, res: any) => {
 }
 
 
-export const sign_up = async(newUser: any, res: any) => {
-    const { email, password, confirmPassword, firstName, lastName } = newUser;
+export const sign_up = async(req: any, res: any) => {
+    const { email, password, confirmPassword, firstName, lastName } = req.body;
 
     try{
         const existingUser: any = await UserModel.findOne({ email });
+
         // user exists
-        if(existingUser){
-            return res.status(400).json({ message: "User with this email already exists." });
-        }
+        if(existingUser) return res.status(400).json({ message: "User with this email already exists." });
 
         //check if password and confirmPassword is the same
-        if(password !== confirmPassword){
-            return res.status(400).json({ message: "Passwords do not match." });
-        }
+        if(password !== confirmPassword) return res.status(400).json({ message: "Passwords do not match." });
 
         const hashedPassword = await bycrypt.hash(password, 12);
         const result: any = await UserModel.create({ email, password: hashedPassword, name: `${firstName} ${lastName}` });

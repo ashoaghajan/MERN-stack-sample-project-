@@ -15,11 +15,6 @@ app.use(cors());
 app.use('/posts', require('./routes/posts'));
 app.use('/users', require('./routes/users'));
 
-app.get('/', (req: any, res: any) => {
-    res.send('Hello to memories API')
-});
-
-
 dotenv.config();
 
 // mondoDb connection
