@@ -15,6 +15,7 @@ export const useForm = (currentId: string, setCurrentId: React.Dispatch<React.Se
     const token = userData.token ? userData.token : '';
     const userName = userData.result ? userData.result.name : '';
     const userId = userData.result?._id || userData.result?.googleId;
+
     const classes = useStyles();
     const [postData, setPostData] = useState(emptyPost);
     const history = useHistory();

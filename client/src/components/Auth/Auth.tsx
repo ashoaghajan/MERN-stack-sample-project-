@@ -14,7 +14,7 @@ export interface AuthProps {
  
 const Auth: React.SFC<AuthProps> = () => {
 
-    const { classes, isSignup, googleId, showPassword, formData, handleShowPassword,
+    const { error, classes, isSignup, googleId, showPassword, formData, handleShowPassword,
         swithMode, handleChange, handleSubmit, googleSuccess, googleFailure } = useAuth();
 
     return ( 
@@ -56,6 +56,7 @@ const Auth: React.SFC<AuthProps> = () => {
                         </Grid>
                     </Grid>
                 </form>
+                <Typography variant='h6' color='error'>{error}</Typography>
             </Paper>
         </Container>
      );

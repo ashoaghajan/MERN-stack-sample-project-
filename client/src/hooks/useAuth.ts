@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import useStyles from '../styles/authStyles';
@@ -14,7 +14,12 @@ export const useAuth = () => {
 
     const [isSignup, setIsSignUp] = useState(false);
     const [showPassword, setShowPassword] = useState(false);
-    const [formData, setFormData] = useState(initSignForm)
+    const [formData, setFormData] = useState(initSignForm);
+    const [error, setError] = useState('');
+
+    useEffect(() => {
+        setError('');
+    },[])
 
 
     const handleShowPassword = () => {
@@ -35,10 +40,12 @@ export const useAuth = () => {
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         if(isSignup){
-            dispatch(userSignup(formData, history));
+            formData.password !== formData.confirmPassword 
+            ? setError('Passwords do not match') 
+            : dispatch(userSignup(formData, history, setError));
         }
         else{
-            dispatch(userSignin(formData, history));
+            dispatch(userSignin(formData, history, setError));
         }
     }
 
@@ -49,10 +56,11 @@ export const useAuth = () => {
         history.push('/');
     }
 
-    const googleFailure = () => {
+    const googleFailure = (err: any) => {
+        console.log(err)
         console.log("Google Sign In Was unsuccessfull. Try Again Later")
     }
 
-    return { classes, isSignup, googleId, showPassword, formData, handleShowPassword,
+    return { error, classes, isSignup, googleId, showPassword, formData, handleShowPassword,
         swithMode, handleChange, handleSubmit, googleSuccess, googleFailure }
 }

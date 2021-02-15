@@ -20,7 +20,7 @@ export const userLogout = () => (dispatch: Dispatch) => {
 
 
 // backend and mongoDB
-export const userSignin = (formData: signinUser, history: any) => async(dispatch: Dispatch) => {
+export const userSignin = (formData: signinUser, history: any, setError: Function) => async(dispatch: Dispatch) => {
     try{
         const { data } = await api.signIn(formData) 
         dispatch({ type: "SET_USER", payload: data });
@@ -28,10 +28,11 @@ export const userSignin = (formData: signinUser, history: any) => async(dispatch
     }
     catch(err){
         console.log(err);
+        setError('Signin failed, you have probably entered wrong detials');
     }
 }
 
-export const userSignup = (formData: signupUser, history: any) => async(dispatch: Dispatch) => {
+export const userSignup = (formData: signupUser, history: any, setError: Function) => async(dispatch: Dispatch) => {
     try{
         const { data } = await api.signUp(formData) 
         dispatch({ type: "SET_USER", payload: data });
@@ -39,5 +40,6 @@ export const userSignup = (formData: signupUser, history: any) => async(dispatch
     }
     catch(err){
         console.log(err);
+        setError('Signup failed, you have probably entered wrong detials');
     }
 }
