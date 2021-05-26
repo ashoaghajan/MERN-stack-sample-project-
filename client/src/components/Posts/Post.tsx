@@ -48,15 +48,16 @@ const Post: React.SFC<PostProps> = ({ post, setCurrentId }) => {
                 <Typography variant='h6'>{post.name}</Typography>
                 <Typography variant='body2'>{moment(post.createdAt).fromNow()}</Typography>
             </div>
-            <div className={classes.overlay2}>
-            {userId === post.creator && <Button style={{color: 'white'}} size='small' onClick={handleEdit}>
+            
+            {userId === post.creator && <div className={classes.overlay2}> 
+                <Button style={{color: 'white'}} size='small' onClick={handleEdit}>
                     <MoreHorizIcon fontSize='default'/>
-                </Button>}
-            </div>
+                </Button>
+            </div>}
             <div className={classes.details}>
-                <Typography variant='body2' color='textSecondary'>{post.tags.map(tag => `#${tag} `)}</Typography>
+                <Typography variant='body2' color='textSecondary' component="h2">{post.tags.map(tag => `#${tag} `)}</Typography>
             </div>
-            <Typography className={classes.title} variant='h5' gutterBottom>{post.title}</Typography>
+            <Typography className={classes.title} variant='h5' component="h2" gutterBottom>{post.title}</Typography>
             <CardContent>
                 <Typography variant='body2' color='textSecondary' component='p'>{post.message}</Typography>
             </CardContent>

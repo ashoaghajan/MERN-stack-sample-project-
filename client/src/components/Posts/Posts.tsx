@@ -17,7 +17,7 @@ const Posts: React.SFC<PostsProps> = ({ setCurrentId }) => {
         posts.length ? (
             <Grid container className={classes.mainContainer} alignItems='stretch' spacing={3}>
                 {posts.map(post => (
-                    <Grid key={post._id} item sm={6} lg={4}>
+                    <Grid key={post._id} item xs={12} sm={6} md={6}>
                         <Post post={post} setCurrentId={setCurrentId}/>
                     </Grid>
                 ))}

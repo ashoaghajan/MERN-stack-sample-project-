@@ -18,7 +18,7 @@ const Auth: React.SFC<AuthProps> = () => {
         swithMode, handleChange, handleSubmit, googleSuccess, googleFailure } = useAuth();
 
     return ( 
-        <Container component='main' maxWidth='xs'>
+        <Container component='main' maxWidth='sm'>
             <Paper className={classes.paper} elevation={3}>
                 <Avatar className={classes.avatar}>
                     <LockOutlinedIcon />
