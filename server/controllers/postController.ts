@@ -2,10 +2,42 @@ import mongoose from 'mongoose';
 import PostMessage from '../models/postMessage';
 
 // get all posts 
-export const get_data = async(res: any) => {
+export const get_data = async(req: any, res: any) => {
+    const { page } = req.query;
+    const LIMIT = 8;
+    // get the starting index of every page
+    const startIndex = (Number(page) - 1) * LIMIT;
     try{
-        const data = await PostMessage.find();
+        const total = await PostMessage.countDocuments({});
+        const data = await PostMessage.find().sort({ _id: -1}).limit(LIMIT).skip(startIndex);
+        res.status(200).json({ data, currentPage: Number(page), totalPageNumber: Math.ceil(total / LIMIT) });
+    }
+    catch(err){
+        console.log(err)
+        res.status(400).json({ message: err.message });
+    }
+}
+
+// get a single post
+export const get_single_data = async(req: any, res: any) => {
+    const { id } = req.params;
+    try{
+        const data = await PostMessage.findById(id);
         res.status(200).json(data);
+    }
+    catch(err){
+        console.log(err)
+        res.status(400).json({ message: err.message });
+    }
+}
+
+// get all posts 
+export const get_post_by_search = async(req: any, res: any) => {
+    const { searchQuery, tags } = req.query;
+    const title = new RegExp(searchQuery, 'i')
+    try{
+        const data = await PostMessage.find({ $or: [ { title }, { tags: { $in: tags.toLowerCase().split(',') } } ] });
+        res.status(200).json({ data });
     }
     catch(err){
         console.log(err)

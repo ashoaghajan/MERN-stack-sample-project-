@@ -10,19 +10,21 @@ export interface PostsProps {
  
 const Posts: React.SFC<PostsProps> = ({ setCurrentId }) => {
 
-    const posts = useSelector((state: RootState) => state.posts);
+    const { posts, loading } = useSelector((state: RootState) => state.posts);
     const classes = useStyles();
 
+    if(!posts.length && !loading) return <h1>No Posts</h1>
+
     return ( 
-        posts.length ? (
+        loading ? <CircularProgress /> : (
             <Grid container className={classes.mainContainer} alignItems='stretch' spacing={3}>
                 {posts.map(post => (
-                    <Grid key={post._id} item xs={12} sm={6} md={6}>
+                    <Grid key={post._id} item xs={12} sm={6} md={6} lg={3}>
                         <Post post={post} setCurrentId={setCurrentId}/>
                     </Grid>
                 ))}
             </Grid>
-        ) : <CircularProgress />
+        )
      );
 }
  

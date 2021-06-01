@@ -1,6 +1,6 @@
 import axios, { AxiosRequestConfig } from 'axios';
 
-const API = axios.create({ baseURL: 'https://memories-app-aa.herokuapp.com' });
+const API = axios.create({ baseURL: 'http://localhost:5000' });
 
 API.interceptors.request.use((req: AxiosRequestConfig) => {
     const profile = localStorage.getItem('profile')
@@ -13,11 +13,14 @@ API.interceptors.request.use((req: AxiosRequestConfig) => {
 });
 
 // post requests
-export const getPosts = () => API.get('/posts');
-export const postPost = (newPost: PostToAdd) => API.post('/posts', newPost);
-export const deletePost = (id: string) => API.delete(`posts/${id}`);
-export const patchPost = (id: string, updatedPost: PostToAdd) => API.patch(`/posts/${id}`, updatedPost);
-export const likePost = (id: string) => API.patch(`/posts/${id}/like`);
+export const get_posts = (page: number) => API.get(`/posts?page=${page}`);
+export const get_single_post = (id: string) => API.get(`/posts/${id}`);
+export const get_posts_by_search = (searchQuery: SearchQuery) => 
+    API.get(`/posts/search?searchQuery=${searchQuery.search || 'none'}&tags=${searchQuery.tags}`);
+export const post_post = (newPost: PostToAdd) => API.post('/posts', newPost);
+export const delete_post = (id: string) => API.delete(`posts/${id}`);
+export const patch_post = (id: string, updatedPost: PostToAdd) => API.patch(`/posts/${id}`, updatedPost);
+export const like_post = (id: string) => API.patch(`/posts/${id}/like`);
 
 // user requests
 export const signIn = (formData: signinUser) => API.post('/users/signin', formData); 

@@ -7,10 +7,12 @@ const express_1 = __importDefault(require("express"));
 const postController_1 = require("../controllers/postController");
 const auth_1 = require("../middleware/auth");
 const router = express_1.default.Router();
-router.get('/', (req, res) => postController_1.get_data(res));
-router.post('/', auth_1.authMiddleware, (req, res) => postController_1.post_data(req, res));
-router.delete('/:id', auth_1.authMiddleware, (req, res) => postController_1.delete_data(req, res));
-router.patch('/:id', auth_1.authMiddleware, (req, res) => postController_1.patch_data(req, res));
-router.patch('/:id/like', auth_1.authMiddleware, (req, res) => postController_1.like_data(req, res));
+router.get('/', postController_1.get_data);
+router.get('/:id', postController_1.get_single_data);
+router.get('/search', postController_1.get_post_by_search);
+router.post('/', auth_1.authMiddleware, postController_1.post_data);
+router.delete('/:id', auth_1.authMiddleware, postController_1.delete_data);
+router.patch('/:id', auth_1.authMiddleware, postController_1.patch_data);
+router.patch('/:id/like', auth_1.authMiddleware, postController_1.like_data);
 module.exports = router;
 //# sourceMappingURL=posts.js.map

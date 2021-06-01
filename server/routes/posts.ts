@@ -4,22 +4,28 @@ import {
     post_data,
     patch_data,
     delete_data,
-    like_data
+    like_data,
+    get_post_by_search,
+    get_single_data
 } from '../controllers/postController';
 import { authMiddleware } from '../middleware/auth';
 
 const router = express.Router();
 
 
-router.get('/', (req: any, res: any) => get_data(res));
+router.get('/', get_data);
 
-router.post('/', authMiddleware, (req: any, res: any) => post_data(req, res));
+router.get('/:id', get_single_data);
 
-router.delete('/:id', authMiddleware, (req: any, res: any) => delete_data(req, res));
+router.get('/search', get_post_by_search);
 
-router.patch('/:id', authMiddleware, (req: any, res: any) => patch_data(req, res));
+router.post('/', authMiddleware, post_data);
 
-router.patch('/:id/like', authMiddleware, (req: any, res: any) => like_data(req, res));
+router.delete('/:id', authMiddleware, delete_data);
+
+router.patch('/:id', authMiddleware, patch_data);
+
+router.patch('/:id/like', authMiddleware, like_data);
 
 
 module.exports = router;

@@ -18,8 +18,12 @@ export default makeStyles({
     flexDirection: 'column',
     justifyContent: 'space-between',
     borderRadius: '15px',
-    height: '100%',
-    position: 'relative',
+    maxHeight: '100%',
+    position: 'relative'
+  },
+  content: {
+    height: 150,
+    overflow: 'hidden',
   },
   overlay: {
     position: 'absolute',
@@ -41,8 +45,16 @@ export default makeStyles({
     justifyContent: 'space-between',
     margin: '20px',
   },
+  tags: {
+    height: 35,
+    overflow: 'hidden',
+    textOverflow: 'ellipsis'
+  },
   title: {
     padding: '0 16px',
+    height: 30,
+    overflow: 'hidden',
+    textOverflow: 'ellipsis'
   },
   cardActions: {
     padding: '0 16px 8px 16px',

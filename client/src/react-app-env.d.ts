@@ -25,7 +25,21 @@ type Post = {
 
 type PostAction =  {
     type: 'GET_POSTS',
-    payload: Post[]
+    payload: {
+        data: Post[],
+        currentPage: number,
+        totalPageNumber: number
+    }
+} | {
+    type: 'GET_SINGLE_POST',
+    payload: {
+        data: Post
+    }
+} | {
+    type: 'GET_POSTS_BY_SEARCH',
+    payload: {
+        data: Post[]
+    }
 } | {
     type: 'CREATE_POST',
     payload: Post
@@ -35,7 +49,11 @@ type PostAction =  {
 } | {
     type: 'DELETE_POST',
     payload: Post
-} 
+} | {
+    type: 'START_LOADING'
+} | {
+    type: 'END_LOADING'
+}
 
 
 // Auth types
@@ -75,9 +93,21 @@ type AuthAction =  {
 }
 
 
+// Search
+type SearchQuery = {
+    search: string,
+    tags: string
+}
+
 // Global types
 type RootState = {
-    posts: Post[],
+    posts: {
+        posts: Post[],
+        post: Post
+        currentPage: number,
+        totalPageNumber: number,
+        loading: boolean
+    },
     auth: {
         authData: any
     }
