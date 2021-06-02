@@ -15,9 +15,9 @@ const router = express.Router();
 
 router.get('/', get_data);
 
-router.get('/:id', get_single_data);
-
 router.get('/search', get_post_by_search);
+
+router.get('/:id', get_single_data);
 
 router.post('/', authMiddleware, post_data);
 

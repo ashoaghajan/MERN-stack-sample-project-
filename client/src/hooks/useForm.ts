@@ -43,7 +43,7 @@ export const useForm = (currentId: string, setCurrentId: React.Dispatch<React.Se
     }
 
     const handleAddTag = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-        const tagArray = e.target.value ? e.target.value.toLowerCase().split(', ') : [];
+        const tagArray = e.target.value ? e.target.value.toLowerCase().trim().split(',') : [];
         changeStateKey('tags', tagArray, setPostData);
     }
 

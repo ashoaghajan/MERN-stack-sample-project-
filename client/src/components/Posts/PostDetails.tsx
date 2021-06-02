@@ -4,10 +4,10 @@ import { useSelector, useDispatch } from 'react-redux';
 import moment from 'moment';
 import { useParams, useHistory } from 'react-router-dom';
 import useStyles from '../../styles/postDetailsStypes';
-import { getSinglePost } from '../../actions/postActions';
+import { getSinglePost, getPostsBySearch } from '../../actions/postActions';
 
 export interface PostDetailsProps {
-    
+
 }
  
 const PostDetails: React.SFC<PostDetailsProps> = () => {
@@ -24,12 +24,21 @@ const PostDetails: React.SFC<PostDetailsProps> = () => {
         id && dispatch(getSinglePost(id));
     },[id]);
 
+    useEffect(() => {
+        post && dispatch(getPostsBySearch({ search: 'none', tags: post.tags.join(',') }));
+    },[post]);
+
+    const openPost = (id: string) => history.push(`/posts/${id}`);
+    
+
 
     if(loading){
         return <Paper elevation={6} className={classes.loadingPaper}>
             <CircularProgress size='7em' />
         </Paper>
     }
+
+    const recomendedPosts = posts.length ? posts.filter(item => item?._id !== post?._id): [];
 
     return (
         <Paper style={{ padding: '20px', borderRadius: '15px' }} elevation={6}>
@@ -50,6 +59,23 @@ const PostDetails: React.SFC<PostDetailsProps> = () => {
                 <img className={classes.media} src={post?.selectedFile || 'https://user-images.githubusercontent.com/194400/49531010-48dad180-f8b1-11e8-8d89-1e61320e1d82.png'} alt={post?.title} />
                 </div>
             </div>
+            {(recomendedPosts.length > 0) && (
+                <div className={classes.section}>
+                    <Typography gutterBottom variant='h5'>You might also like:</Typography>
+                    <Divider />
+                    <div className={classes.recommendedPosts}>
+                        {recomendedPosts.map(post => (
+                            <div key={post._id} style={{ margin: '20px', cursor: 'pointer' }} onClick={() => openPost(post._id)}>
+                                <Typography gutterBottom variant='h6'>{post.title}</Typography>
+                                <Typography gutterBottom variant='subtitle2'>{post.name}</Typography>
+                                <Typography gutterBottom variant='subtitle2'>{post.message}</Typography>
+                                <Typography gutterBottom variant='subtitle1'>Likes: {post.likes.length}</Typography>
+                                <img src={post.selectedFile} width='200px' />
+                            </div>
+                        ))}
+                    </div>
+                </div>
+            )}
         </Paper>
      );
 }
