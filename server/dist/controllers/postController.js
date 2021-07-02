@@ -12,7 +12,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.like_data = exports.patch_data = exports.delete_data = exports.post_data = exports.get_post_by_search = exports.get_single_data = exports.get_data = void 0;
+exports.comment_data = exports.like_data = exports.patch_data = exports.delete_data = exports.post_data = exports.get_post_by_search = exports.get_single_data = exports.get_data = void 0;
 const mongoose_1 = __importDefault(require("mongoose"));
 const postMessage_1 = __importDefault(require("../models/postMessage"));
 // get all posts 
@@ -142,4 +142,26 @@ const like_data = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     }
 });
 exports.like_data = like_data;
+// comment a post
+const comment_data = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const { id } = req.params;
+    const { finalComment } = req.body;
+    if (!req.userId)
+        return res.json({ message: 'Unauthenticated user.' });
+    try {
+        if (!mongoose_1.default.Types.ObjectId.isValid(id)) {
+            return res.status(404).send('No post with that id');
+        }
+        else {
+            const post = yield postMessage_1.default.findById(id);
+            post.comments.push(finalComment);
+            const updatedData = yield postMessage_1.default.findByIdAndUpdate(id, post, { new: true });
+            res.json(updatedData);
+        }
+    }
+    catch (err) {
+        res.status(409).json({ message: err.message });
+    }
+});
+exports.comment_data = comment_data;
 //# sourceMappingURL=postController.js.map

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import useStyles from '../../styles/postStyles';
 import { Card, CardActions, CardContent, CardMedia, Button, Typography } from '@material-ui/core'
@@ -7,7 +7,7 @@ import MoreHorizIcon from '@material-ui/icons/MoreHoriz';
 import moment from 'moment';
 import { useDispatch, useSelector } from 'react-redux';
 import { deletePost, likePost } from '../../actions/postActions';
-import Likes from './Likes';
+import Likes from '../PostRelated/Likes';
 import { checkToken } from '../../global/globalFunctions';
 
 export interface PostProps {
@@ -24,6 +24,9 @@ const Post: React.SFC<PostProps> = ({ post, setCurrentId }) => {
     const dispatch = useDispatch();
     const history = useHistory();
 
+    const [likes, setLikes] = useState(post?.likes);
+    const hasLikedPost = post.likes.find((like: string) => like === (user?.result?.googleId || user?.result?._id));
+
 
     const handleEdit = () => {
         checkToken(token, dispatch, history);
@@ -37,6 +40,12 @@ const Post: React.SFC<PostProps> = ({ post, setCurrentId }) => {
 
     const handleLike = () => {
         checkToken(token, dispatch, history);
+        if(hasLikedPost){
+            setLikes(post.likes.filter(id => id !== userId));
+        }
+        else{
+            setLikes([...post.likes, userId]);
+        }
         dispatch(likePost(post._id));
     }
 
@@ -70,7 +79,7 @@ const Post: React.SFC<PostProps> = ({ post, setCurrentId }) => {
                 </CardContent>
                 <CardActions className={classes.cardActions}>
                     <Button size='small' disabled={!user?.result} color='primary' onClick={handleLike}>
-                        <Likes post={post}/>
+                        <Likes likes={likes}/>
                     </Button>
                     {userId === post.creator && <Button size='small' color='primary' onClick={handleDelete}>
                         <DeleteIcon fontSize='small'/>&nbsp; Delete

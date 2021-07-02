@@ -14,5 +14,6 @@ router.post('/', auth_1.authMiddleware, postController_1.post_data);
 router.delete('/:id', auth_1.authMiddleware, postController_1.delete_data);
 router.patch('/:id', auth_1.authMiddleware, postController_1.patch_data);
 router.patch('/:id/like', auth_1.authMiddleware, postController_1.like_data);
+router.post('/:id/comment', auth_1.authMiddleware, postController_1.comment_data);
 module.exports = router;
 //# sourceMappingURL=posts.js.map

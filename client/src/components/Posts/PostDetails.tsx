@@ -4,7 +4,8 @@ import { useSelector, useDispatch } from 'react-redux';
 import moment from 'moment';
 import { useParams, useHistory } from 'react-router-dom';
 import useStyles from '../../styles/postDetailsStypes';
-import { getSinglePost, getPostsBySearch } from '../../actions/postActions';
+import { getSinglePost } from '../../actions/postActions';
+import CommentSection from '../PostRelated/CommentSection';
 
 export interface PostDetailsProps {
 
@@ -22,15 +23,12 @@ const PostDetails: React.SFC<PostDetailsProps> = () => {
 
     useEffect(() => {
         id && dispatch(getSinglePost(id));
+        // eslint-disable-next-line
     },[id]);
 
-    useEffect(() => {
-        post && dispatch(getPostsBySearch({ search: 'none', tags: post.tags.join(',') }));
-    },[post]);
 
     const openPost = (id: string) => history.push(`/posts/${id}`);
     
-
 
     if(loading){
         return <Paper elevation={6} className={classes.loadingPaper}>
@@ -52,7 +50,7 @@ const PostDetails: React.SFC<PostDetailsProps> = () => {
                 <Divider style={{ margin: '20px 0' }} />
                 <Typography variant="body1"><strong>Realtime Chat - coming soon!</strong></Typography>
                 <Divider style={{ margin: '20px 0' }} />
-                <Typography variant="body1"><strong>Comments - coming soon!</strong></Typography>
+                <CommentSection post={post}/>
                 <Divider style={{ margin: '20px 0' }} />
                 </div>
                 <div className={classes.imageSection}>
@@ -70,7 +68,7 @@ const PostDetails: React.SFC<PostDetailsProps> = () => {
                                 <Typography gutterBottom variant='subtitle2'>{post.name}</Typography>
                                 <Typography gutterBottom variant='subtitle2'>{post.message}</Typography>
                                 <Typography gutterBottom variant='subtitle1'>Likes: {post.likes.length}</Typography>
-                                <img src={post.selectedFile} width='200px' />
+                                <img src={post.selectedFile} alt='select file' width='200px' />
                             </div>
                         ))}
                     </div>

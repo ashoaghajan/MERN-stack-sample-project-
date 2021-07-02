@@ -20,7 +20,8 @@ type Post = {
     _id: string,
     createdAt: Date,
     likeCount: number,
-    likes: string[]
+    likes: string[],
+    comments: string[]
 }
 
 type PostAction =  {
@@ -36,6 +37,11 @@ type PostAction =  {
         data: Post
     }
 } | {
+    type: 'UPDATE_SINGLE_POST',
+    payload: {
+        data: Post
+    }
+} | {
     type: 'GET_POSTS_BY_SEARCH',
     payload: {
         data: Post[]
@@ -44,7 +50,7 @@ type PostAction =  {
     type: 'CREATE_POST',
     payload: Post
 } | {
-    type: 'UPDATE_POST',
+    type: 'UPDATE_POSTS',
     payload: Post
 } | {
     type: 'DELETE_POST',

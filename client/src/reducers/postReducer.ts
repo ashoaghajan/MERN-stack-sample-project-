@@ -34,11 +34,17 @@ export const postReducer = (state = initState, action: Action) => {
                 posts: [action.payload, ...state.posts]
             }
 
-        case 'UPDATE_POST':
+        case 'UPDATE_POSTS':
             const updatedPosts = state.posts.map((post: Post) => post._id === action.payload._id ? action.payload : post);
             return {
                 ...state,
                 posts: updatedPosts
+            }
+
+        case 'UPDATE_SINGLE_POST':
+            return {
+                ...state,
+                post: action.payload
             }
 
         case 'DELETE_POST':

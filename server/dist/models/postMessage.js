@@ -18,7 +18,11 @@ const postSchema = new mongoose_1.default.Schema({
     createdAt: {
         type: Date,
         default: new Date()
-    }
+    },
+    comments: {
+        type: [String],
+        default: []
+    },
 });
 const PostMessage = mongoose_1.default.model('PostMessage', postSchema);
 exports.default = PostMessage;

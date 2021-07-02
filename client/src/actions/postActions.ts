@@ -62,7 +62,7 @@ export const deletePost = (id: string) => async(dispatch: Dispatch) => {
 export const updatePost = (id: string, updatedPost: PostToAdd) => async(dispatch: Dispatch) => {
     try{
         const { data } = await api.patch_post(id, updatedPost);
-        dispatch({ type: 'UPDATE_POST', payload: data });
+        dispatch({ type: 'UPDATE_POSTS', payload: data });
     }
     catch(err){
         console.log(err.message);
@@ -72,7 +72,17 @@ export const updatePost = (id: string, updatedPost: PostToAdd) => async(dispatch
 export const likePost = (id: string) => async(dispatch: Dispatch) => {
     try{
         const { data } = await api.like_post(id);
-        dispatch({ type: 'UPDATE_POST', payload: data });
+        dispatch({ type: 'UPDATE_POSTS', payload: data });
+    }
+    catch(err){
+        console.log(err.message);
+    }
+}
+
+export const commentPost = (id: string, finalComment: string) => async(dispatch: Dispatch) => {
+    try{
+        const { data } = await api.comment_post(id, finalComment);
+        dispatch({ type: 'UPDATE_SINGLE_POST', payload: data });
     }
     catch(err){
         console.log(err.message);
